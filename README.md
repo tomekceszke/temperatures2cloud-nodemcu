@@ -1,9 +1,7 @@
 # temperatures2cloud-nodemcu
 
-This NodeMCU (LUA) application works on ESP8266. 
+This NodeMCU-Lua script works on ESP8266. 
 It periodically reads temperatures from DS18B20 (1-Wire) sensors and sends values directly to ThingSpeak channel.
-
-It is based on NodeMCU examples (http://www.nodemcu.com)
 
 ![sample](doc/img/application.JPG)
   
