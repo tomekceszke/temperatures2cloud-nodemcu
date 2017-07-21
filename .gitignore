@@ -1,4 +1,6 @@
+*.lc
+.idea/
 init.lua
 keys.lua
-.idea/
+
 
