@@ -6,17 +6,8 @@
 -- Author: Tomasz Ceszke (tomek.ceszke.com)
 --'
 
-
--- First of all take a look those 2 files:
 require "settings"
 require "keys"
-
--- mock for 1-wire module
-if (ow == nil) then
-    print("It seems that we're NOT on NodeMCU board. No problem, I can mock it :)")
-    --noinspection GlobalCreationOutsideO
-    ow = require("ow_mock")
-end
 
 function checkSensor(addr)
     local sensor_id = addr:byte(8, 8)
@@ -121,7 +112,7 @@ function startJob(sensor_id, sensor_update_sec, sensor_field)
         print("Starting job for sensor id " .. sensor_id)
         tmr.alarm(sensor_id, sensor_update_sec * 1000, tmr.ALARM_AUTO, function()
             local temp = getTemp(sensors[sensor_id])
-            if (temp~="85.0") then
+            if (temp~="85.0000") then
                 print(sensor_id .. ": updating TS with temp: " .. temp)
                 postThingSpeak(temp, sensor_field)
             else
@@ -133,18 +124,3 @@ function startJob(sensor_id, sensor_update_sec, sensor_field)
     end
 end
 
-sensors = findSensors()
-
-if (#sensors > 0) then
-    print("Found " .. #sensors .. " sensor(s):")
-    for k, v in pairs(sensors) do
-        print(k .. " (" .. v:byte(8, 8) .. "): " .. getTemp(sensors[k]))
-    end
-else
-    print("Found no sensors. Bye...")
-    return
-end
-
-for k, v in pairs(known_sensors_settings) do
-    startJob(k, v[1], v[2])
-end
